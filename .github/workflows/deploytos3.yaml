@@ -8,29 +8,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@master
+      #- name: Checkout source code
+      #  uses: actions/checkout@master
 
-      - name: Cache node modules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
+      #- name: Cache node modules
+      #  uses: actions/cache@v1
+      #  with:
+      #    path: node_modules
+      #    key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+      #    restore-keys: |
+      #      ${{ runner.OS }}-build-
+      #      ${{ runner.OS }}-
 
-      - name: Install
-        run: npm install
+      #- name: Install
+      #  run: npm install
 
-      - name: Lint
-        run: npm run lint
+      #- name: Lint
+      #  run: npm run lint
 
-      - name: Test
-        run: npm run test
+      #- name: Test
+      #  run: npm run test
 
-      - name: Build
-        run: npm run build
+      #- name: Build
+      #  run: npm run build
 
       - name: Deploy
         env:
@@ -40,7 +40,7 @@ jobs:
           aws s3 cp \
             --recursive \
             --region us-east-1 \
-            dist s3://leositesite
+            index.html s3://leositesite
       #- name: Notification
       #  uses: 8398a7/action-slack@v2.6.0
       #  with:
