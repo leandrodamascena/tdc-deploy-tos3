@@ -1,26 +1,26 @@
-name: DEPLOY S3
-on: [push]
+name: Subir WS PARA s3
+
+on:
+  push:
+    branches:
+    - main
+
 jobs:
-  run:
+  deploy:
     runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: "A" #${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: "B" #${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
-        - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v1
 
-        #- name: Install dependencies
-        #  run: yarn
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: "A" #${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: "B" #${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
 
-        #- name: Build
-        #  run: yarn build
-
-        - name: Deploy
-          uses: reggionick/s3-deploy@v3
-          with:
-            folder: build
-            bucket: "leoleosite"
-            bucket-region: "us-east-1"
+    - name: Deploy static site to S3 bucket
+      run: aws s3 sync ./dist/ s3://leoleoleo
       #- name: Notification
       #  uses: 8398a7/action-slack@v2.6.0
       #  with:
