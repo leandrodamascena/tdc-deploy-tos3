@@ -40,7 +40,7 @@ jobs:
           aws s3 cp \
             --recursive \
             --region us-east-1 \
-            index.html s3://leositesite
+            ~/index.html s3://leositesite
       #- name: Notification
       #  uses: 8398a7/action-slack@v2.6.0
       #  with:
