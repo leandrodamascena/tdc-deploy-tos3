@@ -1,46 +1,26 @@
-name: S3 Deploy
-on:
-  push:
-    branches:
-      - main
-
+name: DEPLOY S3
+on: [push]
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: "A" #${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: "B" #${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@main
+        - uses: actions/checkout@v2
 
-      #- name: Cache node modules
-      #  uses: actions/cache@v1
-      #  with:
-      #    path: node_modules
-      #    key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
-      #    restore-keys: |
-      #      ${{ runner.OS }}-build-
-      #      ${{ runner.OS }}-
+        #- name: Install dependencies
+        #  run: yarn
 
-      #- name: Install
-      #  run: npm install
+        #- name: Build
+        #  run: yarn build
 
-      #- name: Lint
-      #  run: npm run lint
-
-      #- name: Test
-      #  run: npm run test
-
-      #- name: Build
-      #  run: npm run build
-
-      - name: Deploy
-        env:
-          AWS_ACCESS_KEY_ID: "A" #${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: "X" #${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 cp \
-            --recursive \
-            --region us-east-1 \
-            ~/index.html s3://leositesite
+        - name: Deploy
+          uses: reggionick/s3-deploy@v3
+          with:
+            folder: build
+            bucket: "leoleosite"
+            bucket-region: "us-east-1"
       #- name: Notification
       #  uses: 8398a7/action-slack@v2.6.0
       #  with:
